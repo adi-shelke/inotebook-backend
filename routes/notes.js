@@ -53,7 +53,7 @@ router.post(
 
   // ROUTE 3: Update an existing note using : POST "/api/notes/updatenote". Login required
   router.put(
-    "/updatenote/:id",
+      "/updatenote/:id",
     fetchuser,
     async (req,res)=>{
         try {
@@ -78,5 +78,27 @@ router.post(
             res.status(500).send("Internal Server Error");
           }
     }
-  )
+    )
+
+    // ROUTE 4: Delete an existing note using : POST "/api/notes/deletenote". Login required
+    router.delete("/deletenote/:id",fetchuser,async (req,res)=>{
+        try {
+            //find the note to be deleted and delete it
+            let note =await Notes.findById(req.params.id)
+            //if no notes are found, them return 404 not found
+            if(!note){return res.status(404).send("Not Found")}
+
+            //checking if the user is the owner of note
+            if(note.user.toString()!=req.user.id){
+                return res.status(401).send(`Not allowed`)
+            }
+            // note= await Notes.deleteOne({_id:req.params.id})  // This also works and I figured it out myself
+            note = await Notes.findByIdAndDelete(req.params.id)
+            res.json({"success":"Note has been deleted",Note:note})
+        } catch (error) {
+            console.error(error.message);
+            res.status(500).send("Internal Server Error");
+          }
+    })
+
 module.exports = router;
