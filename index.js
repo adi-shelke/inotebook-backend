@@ -1,11 +1,11 @@
 const connect   = require("./db")
 const express = require('express')
-const app = express()
-app.use(express.json())
-
+var cors = require('cors')
 connect()
-
+const app = express()
 const port = 5000
+app.use(cors())
+app.use(express.json())
 
 app.use('/api/auth', require('./routes/auth'))
 app.use('/api/notes', require('./routes/notes'))
@@ -15,5 +15,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`iNotebook listening on port ${port}`)
 })
