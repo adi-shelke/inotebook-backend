@@ -65,9 +65,10 @@ router.post(
     body("email", "Enter a valid email").isEmail(),
     body("password","Password cannot be blank").exists(),
   ],async(req,res)=>{
+    let success=false
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({success, errors: errors.array() });
     }
 
     const {email,password}=req.body
@@ -75,12 +76,12 @@ router.post(
       let user = await User.findOne({email})
       if(!user)
       {
-        return res.status(400).json({error:"Invalid Credentials, try again"})
+        return res.status(400).json({success,error:"Invalid Credentials, try again"})
       }
       const cmpPass=await bcrypt.compare(password,user.password)
       if(!cmpPass)
       {
-        return res.status(400).json({error:"Invalid Credentials, try again"})
+        return res.status(400).json({success,error:"Invalid Credentials, try again"})
       }
       
       const data = {
@@ -88,8 +89,9 @@ router.post(
           id:user.id
         }
       }
+      success=true
       const authtoken=jwt.sign(data, JWT_SECRET)
-      res.json({authtoken});
+      res.json({success,authtoken});
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Inernal Server Error!")
