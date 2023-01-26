@@ -18,6 +18,7 @@ router.post(
     }),
   ],
   async (req, res) => {
+    let success=false
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -29,7 +30,7 @@ router.post(
       if (user) {
         return res
           .status(400)
-          .json({ error: "Sorry, a user with this email already exists" });
+          .json({ success,error: "Sorry, a user with this email already exists" });
       }
 
       // creating a salt to add with the hash password
@@ -47,9 +48,10 @@ router.post(
           id:user.id
         }
       }
+      success=true
       // creating a signature token to use for further authentication when the user is logged in
       const authtoken=jwt.sign(data, JWT_SECRET)
-      res.json({authtoken});
+      res.json({success,authtoken});
 
     } catch (error) {
       console.error(error.message);
