@@ -9,7 +9,7 @@ const fetchuser = require("../middleware/fetchuser")
 
 //ROUTE 1: Creating a user using : POST "api/auth/createuser". No login required
 router.post(
-  "/createuser",
+  "https://noted-aaej.onrender.com/createuser",
   [
     body("name", "Enter a valid name").isLength({ min: 3 }),
     body("email", "Enter a valid email").isEmail(),
@@ -62,7 +62,7 @@ router.post(
 
 //ROUTE 2: Authenticate user using POST "api/auth/login" no login required
 router.post(
-  "/login",
+  "https://noted-aaej.onrender.com/login",
   [
     body("email", "Enter a valid email").isEmail(),
     body("password","Password cannot be blank").exists(),
