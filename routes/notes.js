@@ -5,7 +5,7 @@ const { body, validationResult } = require("express-validator");
 const Notes = require("../models/Notes");
 
 // ROUTE 1: Get all the notes using : GET "/api/notes/fetchallnotes". Login required
-router.get("https://noted-aaej.onrender.com/fetchallnotes", fetchuser, async (req, res) => {
+router.get("/fetchallnotes", fetchuser, async (req, res) => {
   try {
     const notes = await Notes.find({ user: req.user.id });
     res.json(notes);
@@ -17,7 +17,7 @@ router.get("https://noted-aaej.onrender.com/fetchallnotes", fetchuser, async (re
 
 // ROUTE 2: Add notes using : POST "/api/notes/addnote". Login required
 router.post(
-    "https://noted-aaej.onrender.com/addnote",
+    "/addnote",
     fetchuser,
   [
     body("title", "Enter a valid Title").isLength({ min: 3 }),
@@ -51,7 +51,7 @@ router.post(
   );
   // ROUTE 3: Update an existing note using : POST "/api/notes/updatenote". Login required
   router.put(
-      "https://noted-aaej.onrender.com/updatenote/:id",
+      "/updatenote/:id",
     fetchuser,
     async (req,res)=>{
         try {
@@ -79,7 +79,7 @@ router.post(
     )
 
     // ROUTE 4: Delete an existing note using : POST "/api/notes/deletenote". Login required
-    router.delete("https://noted-aaej.onrender.com/deletenote/:id",fetchuser,async (req,res)=>{
+    router.delete("/deletenote/:id",fetchuser,async (req,res)=>{
         try {
             //find the note to be deleted and delete it
             let note =await Notes.findById(req.params.id)
