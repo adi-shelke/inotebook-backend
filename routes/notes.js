@@ -49,8 +49,6 @@ router.post(
     }
   }
   );
-
-
   // ROUTE 3: Update an existing note using : POST "/api/notes/updatenote". Login required
   router.put(
       "/updatenote/:id",
