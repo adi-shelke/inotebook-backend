@@ -7,8 +7,8 @@ const port = process.env.PORT || 5000
 app.use(cors())
 app.use(express.json())
 
-app.use('/api/auth', require('./routes/auth'))
-app.use('/api/notes', require('./routes/notes'))
+app.use('https://noted-aaej.onrender.com/api/auth', require('./routes/auth'))
+app.use('https://noted-aaej.onrender.com/api/notes', require('./routes/notes'))
 
 app.get('/', (req, res) => {
   res.send('Hello Adi!')
